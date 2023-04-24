@@ -62,14 +62,14 @@ def save_processed_thread(thread_id):
 
 def get_threads(page = 0):
     url = f'{BASE_URL}/api/forums/{SOURCE_FORUM_ID}/threads'
-    headers = {'XF-Api-Key': XENFORO_API_KEY}
+    headers = {'XF-Api-Key': XENFORO_API_KEY, 'User-Agent': 'XenClient/1.0'}
     params = {'page': page}
     response = requests.get(url, headers=headers, params=params)
     return response.json()
 
 def get_thread_with_posts(thread_id):
     url = f'{BASE_URL}/api/threads/{thread_id}'
-    headers = {'XF-Api-Key': XENFORO_API_KEY}
+    headers = {'XF-Api-Key': XENFORO_API_KEY, 'User-Agent': 'XenClient/1.0'}
     params = {'with_posts': 'true'}
     response = requests.get(url, headers=headers, params=params)
     return response.json()
@@ -84,21 +84,21 @@ def apply_prefix(thread_id, prefix):
         # new_prefix = prefix
 
     url = f'{BASE_URL}/api/threads/{thread_id}'
-    headers = {'XF-Api-Key': XENFORO_API_KEY, 'Content-Type': 'application/x-www-form-urlencoded'}
+    headers = {'XF-Api-Key': XENFORO_API_KEY, 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': 'XenClient/1.0'}
     data = {'prefix_id': prefix}
     response = requests.post(url, headers=headers, data=data)
     return response.json()
 
 def move_thread(thread_id, destination_forum_id):
     url = f'{BASE_URL}/api/threads/{thread_id}'
-    headers = {'XF-Api-Key': XENFORO_API_KEY, 'Content-Type': 'application/x-www-form-urlencoded'}
+    headers = {'XF-Api-Key': XENFORO_API_KEY, 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': 'XenClient/1.0'}
     data = {'node_id': destination_forum_id}
     response = requests.post(url, headers=headers, data=data)
     return response.json()
 
 def respond(thread_id, message):
     url = f'{BASE_URL}/api/posts'
-    headers = {'XF-Api-Key': XENFORO_API_KEY, 'Content-Type': 'application/x-www-form-urlencoded'}
+    headers = {'XF-Api-Key': XENFORO_API_KEY, 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': 'XenClient/1.0'}
     data = {'message': message, 'thread_id': thread_id}
     response = requests.post(url, headers=headers, data=data)
     return response.json()
