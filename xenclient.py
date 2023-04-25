@@ -42,6 +42,8 @@ PREFIXES = {
 
 MOVE_TARGETS = {
     'bugs': 1294,
+    'bugcomplete': 1295,
+    'bc': 1295,
     'suggestions': 1344
 }
 
@@ -90,9 +92,9 @@ def apply_prefix(thread_id, prefix):
     return response.json()
 
 def move_thread(thread_id, destination_forum_id):
-    url = f'{BASE_URL}/api/threads/{thread_id}'
+    url = f'{BASE_URL}/api/threads/{thread_id}/move'
     headers = {'XF-Api-Key': XENFORO_API_KEY, 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': 'XenClient/1.0'}
-    data = {'node_id': destination_forum_id}
+    data = {'target_node_id': destination_forum_id}
     response = requests.post(url, headers=headers, data=data)
     return response.json()
 
@@ -124,6 +126,8 @@ def main():
         processed_threads = get_processed_threads()
         threads = get_threads(page)
         for thread in threads['threads']:
+            if not thread['discussion_open']:
+                continue
             if thread['thread_id'] in processed_threads:
                 continue
             # print(f'Title: {thread["title"]}')
@@ -149,7 +153,7 @@ def main():
                     if (action == 'prefix' or action == 'p') and input_parts[1] in PREFIXES:
                         apply_prefix(thread['thread_id'], PREFIXES[input_parts[1]])
                         print(f'Applied prefix.')
-                    elif action == 'move' and input_parts[1] in MOVE_TARGETS:
+                    elif (action == 'move' or action == 'mv') and input_parts[1] in MOVE_TARGETS:
                         move_thread(thread['thread_id'], MOVE_TARGETS[input_parts[1]])
                         print(f'Moved thread.')
                     elif action == 'reply' or action == 'r':
