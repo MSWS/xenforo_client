@@ -136,14 +136,16 @@ def main():
             # print(f'Title: {thread["title"]}')
             thread_with_posts = get_thread_with_posts(thread['thread_id'])
             posts = thread_with_posts['posts']
+            os.system('clear')
             print(f'{thread["title"]} - {thread["view_url"]}')
             print(f'{parse_bbcode(posts[0]["message"])}')
+            print()
             time.sleep(1)
             for post in posts[1:]:
-                print(f'{post["username"]}: {parse_bbcode(post["message"])[:100]}')
+                print(f'{post["username"]}: {parse_bbcode(post["message"])[:150]}')
                 # print(f'{post["username"]}: {post["message"]}')
                 # time.sleep(0.2)
-            print('---')
+            print('')
 
             while True:
                 user_input = input('move, prefix, reply: ').strip()
@@ -175,7 +177,7 @@ def main():
                     print(f'Invalid command: {user_input}')
             # if user_input != '':
             save_processed_thread(thread['thread_id'])
-            os.system('clear')
+            # os.system('clear')
         page+=1
 
 if __name__ == '__main__':
