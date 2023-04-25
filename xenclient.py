@@ -48,7 +48,10 @@ MOVE_TARGETS = {
 }
 
 RESPONSES = {
-    'notplanned': 'Marking this as not planned'
+    'notplanned': 'Marking this as not planned',
+    'newgame': """Please read the steps for requesting new supported games [URL='https://www.edgegamers.com/threads/378532/']here[/URL].
+
+Marking as Not Planned."""
 }
 
 def get_processed_threads():
